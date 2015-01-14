@@ -6,24 +6,25 @@ $(document).ready(function() {
 
 function showPanel(data){
 	$.each( data.sinks, function(key, value){
-		composition='<div id="s'+value.id+'" class="sortable">';
+		composition='<section class="gaia-list fit scroll sticky"><article><header>'+value.description+'</header><div id="s'+value.id+'" class="sortable slidercontainer">';
 		composition+='<span><input type="checkbox"';
 		if(value.mute === "yes"){ 
 			composition+=" checked ";
 		}
 		composition+='/>';
 		composition+='<input type="text" value="'+value.volume+'" disabled /> ';
-		composition+=value.description + "</span>";
-		composition+='<input type="range" min="0" max="153" step="1" value="'+value.volume+'"';
+		composition+= "</span>";
+		composition+='<input type="range" min="0" max="100" step="1" value="'+value.volume+'"';
 		if(value.mute === "yes"){ 
 			composition+=" disabled ";
 		}
 		composition+=' />';
-		composition+="</div>";
+		composition+="</div></article></section>";
 		$("#sinks").append(composition);
 	});
 
 	$.each( data.inputs, function(key, value){
+
 		composition='<div id="i'+value.id+'" class="inputsink">';
 		composition+='<span><input type="checkbox"';
 		if(value.mute === "yes"){ 
@@ -32,7 +33,8 @@ function showPanel(data){
 		composition+='/>';
 		composition+='<input type="text" value="'+value.volume+'" disabled /> ';
 		composition+=value.name + "</span>"; //+"->"+ data.sinks[value.sink].description;
-		composition+='<input type="range" min="0" max="153" step="1" value="'+value.volume+'"';
+		composition+='<input type="range" min="0" max="100" step="1" value="'+value.volume+'"'; // orient="vertical"
+
 		if(value.mute === "yes"){ 
 			composition+=" disabled ";
 		}
@@ -101,8 +103,8 @@ function xhr_get(parameters){
 		data: parameters
 	}).done(function( resp ) {
 		//console.log( resp );
-		$('#inputs div').remove();
-		$('#sinks div').remove();
+		$('#inputs section').remove();
+		$('#sinks section').remove();
 		showPanel(resp);
 	});
 }
